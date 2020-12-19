@@ -31,5 +31,23 @@ module.exports = (dbHelpers) => {
       .catch(err => console.log(err))
   })
 
+  router.post("/login", (req, res) => {
+    dbHelpers.loginUser(req.body.email)
+      .then(userData => {
+        if (!userData) {
+          return res.json("invalid email")
+        };
+        if (!bcrypt.compareSync(req.body.password, userData.password)) {
+          return res.json("invalid password")
+        };
+        const user = {
+          "username": userData.username,
+          "email": userData.email
+        };
+        return res.json(user)
+      })
+      .catch(err => console.log(err))
+  })
+
   return router
 }

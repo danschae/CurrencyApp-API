@@ -1,7 +1,6 @@
 module.exports = (db) => {
   const validateUsers = (username, email) => {
-    console.log(username)
-    console.log("this is the email", email)
+
     const queryString = `
     SELECT username, email
     FROM users
@@ -26,8 +25,23 @@ module.exports = (db) => {
       return response.rows[0]
     })
   }
+
+  const loginUser = email => {
+    const queryString = `
+    SELECT *
+    FROM users
+    WHERE email = $1
+    `
+    const queryParams = [email];
+    return db.query(queryString, queryParams)
+      .then(response => {
+        return response.rows[0]
+      })
+  };
+
   return {
     validateUsers,
-    registerUser
+    registerUser,
+    loginUser
   }
 }
