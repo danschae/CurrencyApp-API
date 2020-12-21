@@ -11,6 +11,9 @@ app.use(bodyParser.json());
 const apiUsers = require("./routes/apiUsers");
 app.use("/api/users", apiUsers(dbHelpers));
 
+const apiNews = require("./routes/apiNews");
+app.use("/api/news", apiNews(dbHelpers));
+
 app.listen(PORT, () => {
   console.log('listening on ', PORT);
 });
