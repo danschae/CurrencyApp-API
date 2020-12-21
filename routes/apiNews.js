@@ -40,16 +40,18 @@ const showNews = (time) => { newsapi.v2.everything({
     sortBy: 'relevancy',
     page: 1
   }).then(response => {
+    console.log(response.articles)
       return response.articles
   })
     .catch(err => console.log(err));
 }
-
+showNews('day')
 module.exports = (dbHelpers) => {
 
-  router.post("/news", (req, res) => {
+  router.post("/articles", (req, res) => {
     showNews(req.body.time)
       .then(newsData => res.json(newsData))
       .catch(err => console.log(err))
   });
+  return router
 }
